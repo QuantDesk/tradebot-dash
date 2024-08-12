@@ -25,13 +25,13 @@ def calculate_sl(instrument, ltp):
             sl = ltp * 1.39
         else:
             return "Invalid instrument"
-    else:
-        if instrument == 'BANKNIFTY':
-            sl = ltp * 1.8
-        elif instrument == 'NIFTY':
-            sl = ltp * 1.6
-        else:
-            return "Invalid instrument"
+    # else:
+    #     if instrument == 'BANKNIFTY':
+    #         sl = ltp * 1.8
+    #     elif instrument == 'NIFTY':
+    #         sl = ltp * 1.6
+    #     else:
+    #         return "Invalid instrument"
     
     # Handle additional trade rule
     if 'additional_trade' in instrument.lower():
