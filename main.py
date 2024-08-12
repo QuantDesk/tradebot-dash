@@ -3,6 +3,7 @@ from deta import Deta
 import pytz
 from datetime import datetime
 import pandas as pd
+import yfinance as yf
 
 # Initialize Deta Base with your project key
 deta = Deta(st.secrets['key'])
@@ -38,6 +39,16 @@ def calculate_sl(instrument, ltp):
 
     return sl
 
+def atm_nifty():
+    ticker = "^NSEI"  # Ticker symbol for Nifty
+    
+    data = yf.download(ticker, period="1d")
+    spot_price = data["Close"].iloc[-1]  # Get the most recent closing price
+    
+    rounded_price = round(spot_price / 50) * 50
+    
+    return spot_price, rounded_price
+
 # Function to fetch unique times from the database
 def fetch_unique_times():
     items = db.fetch().items
@@ -62,7 +73,7 @@ def fetch_current_sl(name, instrument_type):
 def update_sl(key, new_sl):
     db.update({"sl": new_sl}, key)
 
-tab1, tab2 = st.tabs(['Trade Bot','Additional Trade'])
+tab1, tab2, tab3, tab4 = st.tabs(['Trade Bot','Additional Trade','After 11:30 SL','Hedges'])
 
 with tab1:
 
@@ -133,3 +144,34 @@ with tab2:
     if entry:
 
         st.write(f'SL : {entry*1.43}')
+
+with tab3:
+
+    st.title('After 11:30 AM SL')
+
+    col_nifty, col_banknifty = st.columns(2)
+
+    with col_nifty:
+
+        tab3_nifty_entry = st.number_input('Entry Nifty Price')
+        st.write(f'SL for NIFTY {tab3_nifty_entry*1.6}')
+
+    with col_banknifty:
+
+        tab3_bn_entry = st.number_input('Entry Banknifty Price')
+        st.write(f'SL for NIFTY {tab3_bn_entry*1.8}')
+
+with tab4:
+
+    st.title('Nifty Hedges')
+
+    if st.button('Get Nifty Hedge'):
+
+        spot , atm = atm_nifty()
+
+        st.write(f'Nity Spot : {spot}')
+
+        st.write(f'NIFTY {atm+300} CALL')
+        st.write(f'NIFTY {atm-300} PUT')
+
+
