@@ -17,13 +17,12 @@ def calculate_sl(instrument, ltp):
     # Extract current time
     current_time = now.strftime('%H:%M')
     
-    # Define stop-loss multipliers
-    if current_time < '11:30':
-        if instrument == 'BANKNIFTY':
+
+    if instrument == 'BANKNIFTY':
             sl = ltp * 1.31
-        elif instrument == 'NIFTY':
+    elif instrument == 'NIFTY':
             sl = ltp * 1.39
-        else:
+    else:
             return "Invalid instrument"
     # else:
     #     if instrument == 'BANKNIFTY':
@@ -33,9 +32,6 @@ def calculate_sl(instrument, ltp):
     #     else:
     #         return "Invalid instrument"
     
-    # Handle additional trade rule
-    if 'additional_trade' in instrument.lower():
-        sl = ltp * 1.43
 
     return sl
 
