@@ -109,18 +109,30 @@ with tab1:
                 new_sl_call = None
                 new_sl_put = None
 
-                if entry_price_call > 0:
-                    new_sl_call = calculate_sl(selected_items[0]['name'], entry_price_call)
-                    with col3:
-                        st.write(f"Calculated SL for Call (CE): {new_sl_call:.2f}")
+                # if entry_price_call > 0:
+                #     new_sl_call = calculate_sl(selected_items[0]['name'], entry_price_call)
+                #     with col3:
+                #         st.write(f"Calculated SL for Call (CE): {new_sl_call:.2f}")
 
-                if entry_price_put > 0:
-                    new_sl_put = calculate_sl(selected_items[0]['name'], entry_price_put)
-                    with col4:
-                        st.write(f"Calculated SL for Put (PE): {new_sl_put:.2f}")
+                # if entry_price_put > 0:
+                #     new_sl_put = calculate_sl(selected_items[0]['name'], entry_price_put)
+                #     with col4:
+                #         st.write(f"Calculated SL for Put (PE): {new_sl_put:.2f}")
 
                 # Update SL button
                 if st.button("Update SL"):
+
+                    if entry_price_call > 0:
+                        new_sl_call = calculate_sl(selected_items[0]['name'], entry_price_call)
+                        with col3:
+                            st.write(f"Calculated SL for Call (CE): {new_sl_call:.2f}")
+
+                    if entry_price_put > 0:
+                        new_sl_put = calculate_sl(selected_items[0]['name'], entry_price_put)
+                        with col4:
+                            st.write(f"Calculated SL for Put (PE): {new_sl_put:.2f}")
+
+                    
                     if new_sl_call is not None:
                         for item in selected_items:
                             if item['instrument_type'] == "CE":
